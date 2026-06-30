@@ -22,6 +22,9 @@ type Props = {
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+
+
+
 const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const isCategoryOpen = openMenu === "category"
@@ -30,10 +33,25 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
   const isPaymentOpen = openMenu === "payment"
   const isSettingOpen = openMenu === "setting"
   const isHelpOpen = openMenu === "help"
-
+  
+  const HandleCloseSidebarForNestedLinks = (e) => {
+    e.stopPropagation()
+    setIsSidebarOpen(false)
+  }
   const router = useRouter()
   const pathname = usePathname();
+  
+  const categoryRoutes = ["/category", "/addcategory"]
+  const isCategoryActive = categoryRoutes.includes(pathname)
 
+    const productRoutes = ["/productlist", "/addproduct"]
+  const isProductActive = productRoutes.includes(pathname)
+
+      const paymentRoutes = ["/payment", "/paymentmethods"]
+  const isPaymentActive = paymentRoutes.includes(pathname)
+
+        const settingsRoutes = ["/setting", "/security"]
+  const isSettingsActive = settingsRoutes.includes(pathname)
   // type SidebarPage = 'dashboard' | 'banner' | 'orderlist' | 'category' | 'product' | 'returnpolicy' | 'discountrules' | 'coupon' | 'offerlist' | 'rewardlist' | 'customer' | 'delivery' | 'payment' | 'plan' | 'settings' | 'help' | 'logout'
 
   // const [isActive, setIsActive] = useState<SidebarPage>('dashboard')
@@ -67,19 +85,19 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
           <div className="flex flex-col gap-3 cursor-pointer">
 
             {/* Dashboard */}
-            <Link href="/" className={`h-12 flex items-center gap-2 px-4 rounded-md ${pathname === '/' ? "bg-green-500 text-black" : ""}`}>
+            <Link href="/" className={`h-12 flex items-center gap-2 px-4 rounded-md ${pathname === '/' ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
               <IoMdSpeedometer />
               <span>Dashboard</span>
             </Link>
 
             {/* Banner */}
-            <Link href="/banner" className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === '/banner' ? "bg-green-500 text-black" : ""}`} >
+            <Link href="/banner" className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === '/banner' ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
               <GiFlyingFlag size={18} />
               <span>Banner</span>
             </Link>
 
             {/* Orders */}
-            <Link href={"/orderlist"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === '/orderlist' ? "bg-green-500 text-black" : ""}`} >
+            <Link href={"/orderlist"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === '/orderlist' ? "bg-green-500 text-black" : ""}`}  onClick={() => setIsSidebarOpen(false)} >
               <CiViewList size={22} />
               <span>Orders List</span>
             </Link>
@@ -89,7 +107,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               onClick={(e) => handleRowClick(e, "/category")}
               className="border-b border-white/10 rounded-md cursor-pointer"
             >
-              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/category" ? "bg-green-500 text-black" : ""}`}>
+              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${isCategoryActive ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                 <div className="flex items-center gap-2">
                   <TbCategory size={22} />
                   <span>Category</span>
@@ -107,8 +125,8 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
 
               <div className={`overflow-hidden transition-all duration-300 ease-in-out bg-black ${isCategoryOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
                 <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
-                  <Link href="/category" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Category List</Link>
-                  <Link href="/addcategory" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Add Category</Link>
+                  <Link href="/category"  onClick={() => setIsSidebarOpen(false)} className="hover:text-white cursor-pointer">Category List</Link>
+                  <Link href="/addcategory" onClick={HandleCloseSidebarForNestedLinks} className={`hover:text-white cursor-pointer`}>Add Category</Link>
                 </div>
               </div>
             </div>
@@ -118,7 +136,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               onClick={(e) => handleRowClick(e, "/productlist")}
               className="border-b border-white/10 rounded-md cursor-pointer"
             >
-              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/productlist" ? "bg-green-500 text-black" : ""}`}>
+              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${isProductActive ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                 <div className="flex items-center gap-2">
                   <TbCategory size={22} />
                   <span>Product</span>
@@ -137,33 +155,33 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isProductOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
                 <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
                   <Link href="/productlist" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Product List</Link>
-                  <Link href="/addproduct" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Add Product</Link>
+                  <Link href="/addproduct" onClick={HandleCloseSidebarForNestedLinks} className="hover:text-white cursor-pointer"  >Add Product</Link>
                 </div>
               </div>
             </div>
 
             {/* Static Content Links */}
-            <Link href={"/returnpolicy"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/returnpolicy" ? "bg-green-500 text-black" : ""}`} >
+            <Link href={"/returnpolicy"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/returnpolicy" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
               <CiBitcoin size={22} />
               <span>Return Policy</span>
             </Link>
 
-            <Link href={"/discountrules"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/discountrules" ? "bg-green-500 text-black" : ""}`}>
+            <Link href={"/discountrules"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/discountrules" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
               <CiDiscount1 size={22} />
               <span>Discount Rules</span>
             </Link>
 
-            <Link href={"/coupon"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/coupon" ? "bg-green-500 text-black" : ""}`} >
+            <Link href={"/coupon"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/coupon" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
               <RiCoupon2Line size={22} />
               <span>Coupon</span>
             </Link>
 
-            <Link href={"/offerlist"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/offerlist" ? "bg-green-500 text-black" : ""}`} >
+            <Link href={"/offerlist"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/offerlist" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                <CiDiscount1 size={22} />
               <span>Offer list</span>
             </Link>
 
-            <Link href={"/rewardlist"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/rewardlist" ? "bg-green-500 text-black" : ""}`}>
+            <Link href={"/rewardlist"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/rewardlist" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                <IoIosStarHalf size={22} />
               <span>Reward List</span>
             </Link>
@@ -173,7 +191,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               onClick={(e) => handleRowClick(e, "/customer")}
               className="border-b border-white/10 rounded-md cursor-pointer"
             >
-              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/customer" ? "bg-green-500 text-black" : ""}`}>
+              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/customer" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                 <div className="flex items-center gap-2">
                   <FaUserFriends size={22} />
                   <span>Customer</span>
@@ -196,7 +214,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               </div>
             </div>
 
-            <Link href={"/delivery"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/delivery" ? "bg-green-500 text-black" : ""}`}>
+            <Link href={"/delivery"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/delivery" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                <TbTruckDelivery size={22} />
               <span>Delivery Options</span>
             </Link>
@@ -206,7 +224,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               onClick={(e) => handleRowClick(e, "/payment")}
               className="border-b border-white/10 rounded-md cursor-pointer"
             >
-              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/payment" ? "bg-green-500 text-black" : ""}`}>
+              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${isPaymentActive ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                 <div className="flex items-center gap-2">
                   <MdOutlinePayment size={22} />
                   <span>Payment Settings</span>
@@ -225,12 +243,12 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isPaymentOpen ? "max-h-40 mt-2 opacity-100" : "max-h-0 opacity-0"}`}>
                 <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
                   <Link href="/payment" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Upload QR</Link>
-                  <Link href="/paymentmethods" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Link Payment Accounts</Link>
+                  <Link href="/paymentmethods" onClick={HandleCloseSidebarForNestedLinks} className="hover:text-white cursor-pointer">Link Payment Accounts</Link>
                 </div>
               </div>
             </div>
 
-            <Link href={"/plan"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/plan" ? "bg-green-500 text-black" : ""}`} >
+            <Link href={"/plan"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/plan" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)}  >
                <MdOutlinePayment size={22} />
               <span>Plan</span>
             </Link>
@@ -240,7 +258,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               onClick={(e) => handleRowClick(e, "/settings")}
               className="border-b border-white/10 rounded-md cursor-pointer"
             >
-              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/settings" ? "bg-green-500 text-black" : ""}`}>
+              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${isSettingsActive ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                 <div className="flex items-center gap-2">
                   <MdOutlineSettings size={22} />
                   <span>Settings</span>
@@ -259,7 +277,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isSettingOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
                 <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
                   <Link href="/settings" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Profile</Link>
-                  <Link href="/security" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Security</Link>
+                  <Link href="/security" onClick={HandleCloseSidebarForNestedLinks} className="hover:text-white cursor-pointer">Security</Link>
                 </div>
               </div>
             </div>
@@ -269,7 +287,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               onClick={(e) => handleRowClick(e, "/help")}
               className="border-b border-white/10 rounded-md cursor-pointer"
             >
-              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/help" ? "bg-green-500 text-black" : ""}`}>
+              <div className={`h-12 flex items-center justify-between px-4 rounded-md ${pathname === "/help" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                 <div className="flex items-center gap-2">
                   <CiCircleQuestion size={22} />
                   <span>Help Center</span>
@@ -293,7 +311,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
             </div>
 
             {/* Logout */}
-            <Link href={"/logout"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/logout" ? "bg-green-500 text-black" : ""}`}>
+            <Link href={"/logout"} className={`h-12 flex items-center gap-2 px-4 border-b border-white/10 rounded-md ${pathname === "/logout" ? "bg-green-500 text-black" : ""}`} onClick={() => setIsSidebarOpen(false)} >
                <IoIosLogOut size={22} />
               <span>Logout</span>
             </Link>

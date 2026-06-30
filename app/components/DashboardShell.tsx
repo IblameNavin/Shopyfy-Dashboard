@@ -3,11 +3,11 @@ import { useState } from 'react'
 import Navbar from './Navbar'
 import SideBar from './SideBar'
 
+
 const DashboardShell = ({children}:{ children: React.ReactNode }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
   return (
     <div className='flex min-h-screen relative overflow-x-hidden bg-[#0C0A09]'>
-        {/* Backdrop overlay on mobile when sidebar is open */}
         {isSidebarOpen && (
             <div 
                 className='fixed inset-0 bg-black/60 z-[998] md:hidden transition-opacity duration-300'
