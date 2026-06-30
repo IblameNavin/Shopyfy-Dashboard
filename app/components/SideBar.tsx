@@ -34,7 +34,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
   const isSettingOpen = openMenu === "setting"
   const isHelpOpen = openMenu === "help"
   
-  const HandleCloseSidebarForNestedLinks = (e) => {
+  const HandleCloseSidebarForNestedLinks = (e:React.MouseEvent<HTMLAnchorElement>) => {
     e.stopPropagation()
     setIsSidebarOpen(false)
   }
