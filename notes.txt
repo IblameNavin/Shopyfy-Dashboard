@@ -1,0 +1,4 @@
+ps aux | grep next       Checks Running Processes
+
+
+            top    TO Check CPU RAM Usages
