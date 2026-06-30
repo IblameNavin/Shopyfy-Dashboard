@@ -4,12 +4,17 @@ import { FaPhone, FaRegEdit } from 'react-icons/fa'
 import { IoLocationOutline } from 'react-icons/io5'
 import { MdOutlineVerified } from 'react-icons/md'
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css"
-import "@/app/lib/LeafletFix"
+
 import { useState } from 'react';
 import Image from 'next/image';
 import img from "@/public/dummyDocument.webp"
+
+import dynamic from "next/dynamic";
+
+
+const MapComponent = dynamic(() => import("../../components/MapComponent"), {
+  ssr: false,
+});
 
 
 
@@ -81,20 +86,7 @@ const SettingsPage = () => {
                 <button className='py-2 px-3 bg-black w-fit flex items-center justify-center gap-1.5 text-gray-400 cursor-pointer' type="button" onClick={() => setShowMap(prev => !prev)}><IoLocationOutline size={18} className='' /> Open Map </button>
                 {showMap && (
                   <div className="h-80 w-full mt-3 rounded-md overflow-hidden">
-                    <MapContainer
-                      center={[chabahil.lat, chabahil.lng]}
-                      zoom={15}
-                      className="h-full w-full"
-                    >
-                      <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution="&copy; OpenStreetMap contributors"
-                      />
-
-                      <Marker position={[chabahil.lat, chabahil.lng]}>
-                        <Popup>Chabahil, Kathmandu</Popup>
-                      </Marker>
-                    </MapContainer>
+                   <MapComponent lat={chabahil.lat} lng={chabahil.lng} />
                   </div>
                 )}
               </div>

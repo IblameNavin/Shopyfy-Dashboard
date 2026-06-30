@@ -25,8 +25,8 @@ interface ClientRecord {
     const transformedData =  orders.map((order)=> {
     const matchingUser = users.find((user)=> user.uid === order.userId)
     //Grabbing userName and UserNumber of the User
-    const userName = matchingUser?.name
-    const userNumber = matchingUser?.phoneNumber
+    const userName = matchingUser?.name ?? "Unkown User"
+    const userNumber = matchingUser?.phoneNumber ?? "N/A"
 
     const firstProductId = order.productIds[0]
     const targetProduct = products.find((product) => product.id === firstProductId )

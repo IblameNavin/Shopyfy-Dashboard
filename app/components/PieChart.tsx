@@ -50,15 +50,12 @@ const PieChartCompo = () => {
   const innerR = isDesktop ? 65 : 50;
   const outerR = isDesktop ? 105 : 80;
 
-  // ✅ FIX: Reconstruct dataset to split by your 3 distinct metrics
-  // Fallback to 1 if values are 0 so the chart still displays empty structural arcs initially
   const chartData = [
     { name: 'Total Revenue', value: metrics.totalRevenue || 0 },
     { name: 'Average Value', value: metrics.avgValue || 0 },
     { name: 'Total Orders', value: metrics.totalOrders || 0 }
   ];
 
-  // ✅ MATCHING COLORS: Green for Revenue, Purple for Avg Value, Blue for Orders
   const COLORS = ['#22C55E', '#A855F7', '#3B82F6'];
 
   return (
@@ -73,8 +70,8 @@ const PieChartCompo = () => {
               {/* Formatter function to make tooltips show clean currency/units */}
               <Tooltip 
                 contentStyle={{ backgroundColor: '#1C1917', color: '#ffffff', borderRadius: '6px', borderColor: 'rgba(255,255,255,0.1)' }} 
-                formatter={(value: number, name: string) => [
-                  name === 'Total Orders' ? value : `Rs. ${value.toLocaleString('en-US')}`, 
+                formatter={(value, name) => [
+                  name === 'Total Orders' ? value : `Rs. ${value?.toLocaleString('en-US')}`, 
                   name
                 ]}
               />
@@ -109,7 +106,6 @@ const PieChartCompo = () => {
         
         <div className='space-y-3'>
           <div className='flex items-center gap-3'>
-            {/* Match sidebar indicator dots to chart colors */}
             <span className='h-3 w-3 rounded bg-blue-500 shrink-0' />
             <p className='text-gray-400 text-sm'>Total Orders: <span className='font-semibold text-white ml-1'>{metrics.totalOrders}</span></p>
           </div>
