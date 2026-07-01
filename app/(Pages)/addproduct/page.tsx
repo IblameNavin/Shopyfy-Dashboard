@@ -7,6 +7,7 @@ import { MdDeleteOutline, MdOutlineHome, MdOutlineKeyboardArrowDown, MdOutlineNa
 import img from "@/public/dummyDocument.webp"
 import { SiBlockbench } from 'react-icons/si'
 import { GiProcessor } from 'react-icons/gi'
+import { useTheme } from '@/app/context/ThemeContext'
 
 type DropdownItem = {
     text: string;
@@ -14,6 +15,8 @@ type DropdownItem = {
 }
 
 const AddProduct = () => {
+    const { theme } = useTheme()
+    const isActive = theme === "light"
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [superCategory, setSuperCategory] = useState<DropdownItem>({
         text: "Choose a super category",
@@ -41,7 +44,7 @@ const AddProduct = () => {
     })
 
     return (
-        <div className="w-full px-3 text-white">
+        <div className="w-full px-3">
             <div className="py-4 md:py-6 lg:py-8 md:px-[5vw] xl:px-[11vw] flex flex-col gap-4">
 
                 <div className='flex flex-col gap-3'>
@@ -61,14 +64,14 @@ const AddProduct = () => {
             <div className='lg:flex lg:gap-5'>
 
             
-                <div className='bg-[#1C1917] py-4 px-4 border rounded-md border-white/5 w-full flex flex-col lg:w-lg'>
+                <div className={`py-4 px-4 border rounded-md w-full flex flex-col lg:w-lg ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
                     <div className='flex flex-col gap-4'>
                         <div className='flex items-center justify-between lg:flex-col lg:items-start lg:gap-3'>
                             <div className='flex flex-col justify-center gap-1'>
                                 <h3 className='text-lg'>Product Media</h3>
                                 <p className='text-[0.80rem] text-gray-400'>Upload Product Thumbnail and Images</p>
                             </div>
-                            <button className='flex items-center justify-center gap-1 border border-white/15 bg-black py-2 px-3 rounded-md text-gray-400'>
+                            <button className={`flex items-center justify-center gap-1 border py-2 px-3 rounded-md text-gray-400 ${isActive ? "border-black/15 bg-white" : "border-white/15 bg-black"}`}>
                                 <MdDeleteOutline size={22} /> Clear All 
                             </button>
                         </div>
@@ -82,11 +85,11 @@ const AddProduct = () => {
                             <div className='flex flex-col gap-2'>
                                 <div className='flex items-center justify-between'>
                                     <h3 className='text-[0.90rem]'>Product Images</h3>
-                                    <button className='flex items-center justify-center gap-1 border border-white/15 bg-black py-1.5 px-2.5 rounded-md text-gray-400'>
+                                    <button className={`flex items-center justify-center gap-1 border py-1.5 px-2.5 rounded-md text-gray-400 ${isActive ? "border-black/15 bg-white" : "border-white/15 bg-black"}`}>
                                         <IoIosAddCircleOutline size={22} /> Upload Image 
                                     </button>
                                 </div>
-                                <div className='border border-white/5 mt-3 p-2 rounded-md'>
+                                <div className={`border mt-3 p-2 rounded-md ${isActive ? "border-black/10" : "border-white/5"}`}>
                                     <Image src={img} height={110} width={90} alt='img' className='rounded-md' />
                                 </div>
                             </div>
@@ -95,7 +98,7 @@ const AddProduct = () => {
                             <div className='flex flex-col gap-4 mt-4'>
                                 <div className='w-full'>
                                     <p className='text-gray-400 text-sm'>Select Super Category</p>
-                                    <div className='relative border border-white/30 py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start cursor-pointer select-none bg-[#0C0A09]' onClick={() => setIsOpen(prev => !prev)} >
+                                    <div className={`relative border py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start cursor-pointer select-none ${isActive ? "border-black/30 bg-white" : "border-white/30 bg-[#0C0A09]"}`} onClick={() => setIsOpen(prev => !prev)} >
                                         {superCategory.icon}
                                         <p>{superCategory.text}</p>
                                         <MdOutlineKeyboardArrowDown
@@ -104,7 +107,7 @@ const AddProduct = () => {
                                         />
 
                                         <div
-                                            className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col border-white/10 bg-[#12100E] z-50 shadow-xl transition-all duration-300 ease-in-out origin-top ${
+                                            className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col z-50 shadow-xl transition-all duration-300 ease-in-out origin-top ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-[#12100E]"} ${
                                                 isOpen ? 'opacity-100 scale-100 pointer-events-auto translate-y-0' : 'opacity-0 scale-95 pointer-events-none -translate-y-2'
                                             }`}
                                             onClick={(e) => e.stopPropagation()}
@@ -147,8 +150,8 @@ const AddProduct = () => {
                                 <div className='w-full'>
                                     <p className='text-gray-400 text-sm'>Category</p>
                                     {/* FIXED: added pointer-events-none layout block when locked */}
-                                    <div className={`relative border border-white/30 py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start select-none bg-[#0C0A09] transition-all duration-300 ${
-                                        isSuperSelected ? "text-white cursor-pointer opacity-100" : "text-gray-500 pointer-events-none opacity-40"
+                                    <div className={`relative border py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start select-none transition-all duration-300 ${isActive ? "border-black/30 bg-white" : "border-white/30 bg-[#0C0A09]"} ${
+                                        isSuperSelected ? isActive ? "text-black cursor-pointer opacity-100" : "text-white cursor-pointer opacity-100" : "text-gray-500 pointer-events-none opacity-40"
                                     }`} onClick={() => isSuperSelected && setSubOpen(prev => !prev)} >
                                         {subCategory?.icon}
                                         <p>{subCategory?.text}</p>
@@ -157,7 +160,7 @@ const AddProduct = () => {
                                             className={`transition-transform duration-300 ml-auto ${subOpen ? 'rotate-180 text-green-500' : ''}`}
                                         />
                                         <div
-                                            className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col border-white/10 bg-[#12100E] z-50 shadow-xl transition-all duration-300 ease-in-out origin-top ${
+                                            className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col z-50 shadow-xl transition-all duration-300 ease-in-out origin-top ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-[#12100E]"} ${
                                                 subOpen ? 'opacity-100 scale-100 pointer-events-auto translate-y-0' : 'opacity-0 scale-95 pointer-events-none -translate-y-2'
                                             }`}
                                             onClick={(e) => e.stopPropagation()}
@@ -196,8 +199,8 @@ const AddProduct = () => {
                                 <div className='w-full'>
                                     <p className='text-gray-400 text-sm'>Select Category (Optional)</p>
                                     {/* FIXED: tracks updated condition and opacity changes */}
-                                    <div className={`relative border border-white/30 py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start select-none bg-[#0C0A09] transition-all duration-300 ${
-                                        isSubSelected ? "text-white cursor-pointer opacity-100" : "text-gray-500 pointer-events-none opacity-40"
+                                    <div className={`relative border py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start select-none transition-all duration-300 ${isActive ? "border-black/30 bg-white" : "border-white/30 bg-[#0C0A09]"} ${
+                                        isSubSelected ? isActive ? "text-black cursor-pointer opacity-100" : "text-white cursor-pointer opacity-100" : "text-gray-500 pointer-events-none opacity-40"
                                     }`} onClick={() => isSubSelected && setOptOpen(prev => !prev)} >
                                         {optCategory?.icon}
                                         <p>{optCategory?.text}</p>
@@ -206,7 +209,7 @@ const AddProduct = () => {
                                             className={`transition-transform duration-300 ml-auto ${optOpen ? 'rotate-180 text-green-500' : ''}`}
                                         />
                                         <div
-                                            className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col border-white/10 bg-[#12100E] z-50 shadow-xl transition-all duration-300 ease-in-out origin-top ${
+                                            className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col z-50 shadow-xl transition-all duration-300 ease-in-out origin-top ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-[#12100E]"} ${
                                                 optOpen ? 'opacity-100 scale-100 pointer-events-auto translate-y-0' : 'opacity-0 scale-95 pointer-events-none -translate-y-2'
                                             }`}
                                             onClick={(e) => e.stopPropagation()}
@@ -237,30 +240,30 @@ const AddProduct = () => {
                             <div className='flex flex-col gap-3 text-[0.87rem]'>
                                 <h3>Inventory</h3>
                                 <h3>Total Stock</h3>
-                                <input type="text" placeholder='0' className='py-1 px-2 bg-black border border-white/20 rounded-md w-[80%] text-sm' />
+                                <input type="text" placeholder='0' className={`py-1 px-2 border rounded-md w-[80%] text-sm ${isActive ? "bg-white border-black/20" : "bg-black border-white/20"}`} />
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div className='bg-[#1C1917] py-4 px-4 border rounded-md border-white/5 w-full flex flex-col gap-4'>
+                <div className={`py-4 px-4 border rounded-md w-full flex flex-col gap-4 ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
                 <h2 className='text-lg'>General Information</h2>
 
-                <div className='flex flex-col gap-2 border-b border-white/10 pb-5'>
+                <div className={`flex flex-col gap-2 border-b pb-5 ${isActive ? "border-black/10" : "border-white/10"}`}>
                     <h3>Product Name</h3>
                     <div className='flex flex-col gap-1'>
-                    <input type="text" placeholder='e.g. Wireless Mouse' className='py-1 px-2 bg-black border border-white/20 rounded-md w-full text-sm' />
+                    <input type="text" placeholder='e.g. Wireless Mouse' className={`py-1 px-2 border rounded-md w-full text-sm ${isActive ? "bg-white border-black/20" : "bg-black border-white/20"}`} />
                     <span className='text-gray-500 text-sm'>Maximun 250 characters allowed.</span>
                     </div>
                    <h3>Short Description</h3>
                    <div className='flex flex-col gap-1'>
-                   <textarea name="" id="" placeholder='Short Description' rows={4} className='border border-white/10 bg-black text-white py-1 px-2 rounded-md text-sm'></textarea>
+                   <textarea name="" id="" placeholder='Short Description' rows={4} className={`border py-1 px-2 rounded-md text-sm ${isActive ? "bg-white border-black/10 text-black" : "border-white/10 bg-black text-white"}`}></textarea>
                    <span className='text-sm text-gray-500'>Maximum 150 characters allowed.</span>
                    </div>
                    <div className='flex flex-col gap-1'>
                    <h3>Addional Description <span className='text-gray-400'>(Optional)</span></h3>
-                   <textarea name="" id="" rows={7} className='border border-white/10 bg-black text-white py-1 px-2 rounded-md text-sm'></textarea>
+                   <textarea name="" id="" rows={7} className={`border py-1 px-2 rounded-md text-sm ${isActive ? "bg-white border-black/10 text-black" : "border-white/10 bg-black text-white"}`}></textarea>
                    <span className='text-gray-500 text-sm self-end'>0/5000</span>
                    </div>
 
@@ -271,13 +274,13 @@ const AddProduct = () => {
                     <h2 className='text-lg '>Pricing</h2>
                       <div className='flex flex-col gap-2'>
                         <h3>Regular Price</h3>
-                        <div className='relative border border-white/10 bg-black py-1.5 rounded-md text-sm px-3 flex gap-2'>
+                        <div className={`relative border py-1.5 rounded-md text-sm px-3 flex gap-2 ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-black"}`}>
                          <span className='text-gray-400'>NPR</span>
-                        <input type="text" placeholder='Enter price (e.g. 1,000)' className='absolute ml-10 -translate-y-[3px]' />
+                        <input type="text" placeholder='Enter price (e.g. 1,000)' className='absolute ml-10 -translate-y-[3px] bg-transparent' />
                         </div>
 
                         <h3>Discount Amount <span className='text-gray-400'>(Optional)</span></h3>
-                        <div className='relative border border-white/10 bg-black py-1.5 rounded-md text-sm px-3 flex gap-2'>
+                        <div className={`relative border py-1.5 rounded-md text-sm px-3 flex gap-2 ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-black"}`}>
                          <span className='text-gray-400'>NPR</span>
                         <input type="text" placeholder='Amount to subtract (e.g. 100    )' className='absolute ml-10 -translate-y-[3px]' />
                         </div>
@@ -287,10 +290,10 @@ const AddProduct = () => {
                 </div>
 
 
-                <div className='bg-[#1C1917] py-4 px-4 border rounded-md border-white/5 w-full flex flex-col gap-4'>
+                <div className={`py-4 px-4 border rounded-md w-full flex flex-col gap-4 ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
                  <h2 className='text-lg'>Production Variation <span className='text-gray-400'>(Optional)</span></h2>
                  <div className='flex flex-col gap-6'>
-                    <button className='flex items-center bg-black border border-green-500 text-sm text-green-500 py-2 px-3 w-fit rounded-md gap-2'><IoIosAddCircleOutline size={18} />Add new variation i.e size, color, etc.</button>
+                    <button className={`flex items-center border border-green-500 text-sm text-green-500 py-2 px-3 w-fit rounded-md gap-2 ${isActive ? "bg-white" : "bg-black"}`}><IoIosAddCircleOutline size={18} />Add new variation i.e size, color, etc.</button>
                     <p className='text-gray-500'>No variations added yet.</p>
                  </div>
                 </div>

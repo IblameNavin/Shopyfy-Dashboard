@@ -8,6 +8,7 @@ import { MdOutlineVerified } from 'react-icons/md'
 import { useState } from 'react';
 import Image from 'next/image';
 import img from "@/public/dummyDocument.webp"
+import { useTheme } from '@/app/context/ThemeContext'
 
 import dynamic from "next/dynamic";
 
@@ -19,6 +20,8 @@ const MapComponent = dynamic(() => import("../../components/MapComponent"), {
 
 
 const SettingsPage = () => {
+  const { theme } = useTheme()
+  const isActive = theme === "light"
   const [showMap, setShowMap] = useState(false)
 
   const chabahil = {
@@ -26,16 +29,16 @@ const SettingsPage = () => {
     lng: 85.3487,
   };
   return (
-    <div className="w-full px-3 text-white">
+    <div className="w-full px-3">
       <div className="py-4 md:py-6 lg:py-8 md:px-[5vw] xl:px-[11vw] flex flex-col gap-8">
         <h2 className='text-lg md:text-xl font-semibold'>My Profile</h2>
 
-        <div className='bg-[#1C1917] py-4 px-3 border rounded-md border-white/5 w-full flex flex-col'>
+        <div className={`py-4 px-3 border rounded-md w-full flex flex-col ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
 
           <div className='flex justify-between'>
 
             <div className='flex flex-col justify-between gap-8 sm:flex-row sm:gap-12'>
-              <div className='border border-white/10 h-30 w-30 rounded-full flex items-center justify-center'>
+              <div className={`border h-30 w-30 rounded-full flex items-center justify-center ${isActive ? "border-black/10" : "border-white/10"}`}>
                 <Image src="https://via.placeholder.com/150" alt='Profile' height={50} width={50}/>
               </div>
             <div className='flex flex-col gap-1'>
@@ -45,7 +48,7 @@ const SettingsPage = () => {
             </div>
             </div>
 
-            <p className='border border-white/10 bg-black py-2 px-4 text-gray-400 rounded-md w-fit h-fit'><FaRegEdit size={20} /></p>
+            <p className={`border py-2 px-4 text-gray-400 rounded-md w-fit h-fit cursor-pointer ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-black"}`}><FaRegEdit size={20} /></p>
           </div>
         </div>
 
@@ -53,37 +56,37 @@ const SettingsPage = () => {
 
 
 
-        <div className='bg-[#1C1917] py-4 px-3 border rounded-md border-white/5 w-full flex flex-col relative'>
+        <div className={`py-4 px-3 border rounded-md w-full flex flex-col relative ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
           <div className='flex flex-col gap-5'>
-            <h2 className='bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4'>Address Information</h2>
+            <h2 className={`bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4 text-black ${isActive ? "text-white" : "text-black"}`}>Address Information</h2>
             <form action="" className='mt-3 flex flex-col gap-2'>
               <div className='sm:flex sm:flex-row items-center justify-between sm:gap-3'>
               <div className='flex flex-col gap-1  w-full'>
                 <label htmlFor="number" className='flex gap-1 text-[0.90rem] font-semibold'><span className='text-green-500'>*</span>Phone</label>
-                <input type="text" placeholder='9805741775 ' id='number' name='number' className='border border-white/10 bg-black text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full' />
+                <input type="text" placeholder='9805741775 ' id='number' name='number' className={`border text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-black"}`} />
               </div>
 
               <div className='flex flex-col gap-1 w-full'>
                 <label htmlFor="text" className='flex gap-1 text-[0.90rem] font-semibold'><span className='text-green-500'>*</span>Address</label>
-              <input type="text" placeholder='Manipur Chaur' id='address' name='number' className='border border-white/10 bg-black text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full' />
+              <input type="text" placeholder='Manipur Chaur' id='address' name='number' className={`border text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-black"}`} />
               </div>
               </div>
 
               <div className='sm:flex sm:flex-row items-center justify-between sm:gap-3'>
               <div className='flex flex-col gap-1 w-full'>
                 <label htmlFor="text" className='flex gap-1 text-[0.90rem] font-semibold'><span className='text-green-500'>*</span>City</label>
-                <input type="text" placeholder='Kathmandu' id='number' name='number' className='border border-white/10 bg-black text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full' />
+                <input type="text" placeholder='Kathmandu' id='number' name='number' className={`border text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-black"}`} />
               </div>
 
               <div className='flex flex-col gap-1 w-full'>
                 <label htmlFor="text" className='flex gap-1 text-[0.90rem] font-semibold'><span className='text-green-500'>*</span>State</label>
-                <input type="text" placeholder='bagmati' id='state' name='number' className='border border-white/10 bg-black text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full' />
+                <input type="text" placeholder='bagmati' id='state' name='number' className={`border text-sm py-1.5 sm:py-2 md:py-2.5 rounded-md px-3 sm:w-full ${isActive ? "border-black/10 bg-white" : "border-white/10 bg-black"}`} />
               </div>
               </div>
 
               <div className='flex flex-col gap-1'>
                 <p className=''>Please select your location</p>
-                <button className='py-2 px-3 bg-black w-fit flex items-center justify-center gap-1.5 text-gray-400 cursor-pointer' type="button" onClick={() => setShowMap(prev => !prev)}><IoLocationOutline size={18} className='' /> Open Map </button>
+                <button className={`py-2 px-3 w-fit flex items-center justify-center gap-1.5 text-gray-400 cursor-pointer ${isActive ? "bg-white border border-black/10" : "bg-black"}`} type="button" onClick={() => setShowMap(prev => !prev)}><IoLocationOutline size={18} className='' /> Open Map </button>
                 {showMap && (
                   <div className="h-80 w-full mt-3 rounded-md overflow-hidden">
                    <MapComponent lat={chabahil.lat} lng={chabahil.lng} />
@@ -91,16 +94,16 @@ const SettingsPage = () => {
                 )}
               </div>
 
-              <button className='w-fit py-2 px-4 bg-green-500 text-black cursor-pointer rounded-md text-sm mt-3'>Save Changes</button>
+              <button className={`w-fit py-2 px-4 bg-green-500 text-black cursor-pointer rounded-md text-sm mt-3 ${isActive ? "text-white" : "text-black"}`}>Save Changes</button>
             </form>
           </div>
         </div>
 
 
-        <div className='bg-[#1C1917] py-4 px-3 border rounded-md border-white/5 w-full flex flex-col relative'>
+        <div className={`py-4 px-3 border rounded-md w-full flex flex-col relative ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
           <div className='flex flex-col'>
 
-            <h2 className='bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4'>Shop Information</h2>
+            <h2 className={`bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4 text-black ${isActive ? "text-white" : "text-black"}`}>Shop Information</h2>
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-7 py-8'>
  
@@ -137,10 +140,10 @@ const SettingsPage = () => {
         </div>
 
 
-        <div className='bg-[#1C1917] py-4 px-3 border rounded-md border-white/5 w-full flex flex-col relative'>
+        <div className={`py-4 px-3 border rounded-md w-full flex flex-col relative ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
           <div className='flex flex-col gap-5'>
 
-            <h2 className='bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4'>Personal Information</h2>
+            <h2 className={`bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4 text-black ${isActive ? "text-white" : "text-black"}`}>Personal Information</h2>
 
             <div className='grid grid-cols-1 gap-7 py-8 sm:grid-cols-2 items-center justify-between'>
 
@@ -162,10 +165,10 @@ const SettingsPage = () => {
 
 
 
-        <div className='bg-[#1C1917] py-4 px-3 border rounded-md border-white/5 w-full flex flex-col relative'>
+        <div className={`py-4 px-3 border rounded-md w-full flex flex-col relative ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
           <div className='flex flex-col gap-5'>
 
-            <h2 className='bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4'>KYC Information</h2>
+            <h2 className={`bg-green-500 w-fit py-1 rounded-md text-lg px-4 absolute -top-4 text-black ${isActive ? "text-white" : "text-black"}`}>KYC Information</h2>
 
             <div className='flex flex-col gap-7'>
         

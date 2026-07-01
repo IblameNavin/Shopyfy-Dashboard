@@ -5,8 +5,11 @@ import { useState } from 'react'
 import { GiProcessor } from 'react-icons/gi'
 import { MdOutlineHome, MdOutlineKeyboardArrowDown, MdOutlineNavigateNext } from 'react-icons/md'
 import { SiBlockbench } from 'react-icons/si'
+import { useTheme } from '@/app/context/ThemeContext'
 
 const AddCategory = () => {
+    const { theme } = useTheme()
+    const isLight = theme === "light"
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isActive, setIsActive] = useState<"murti" | "satu" | null>(null)
     const [selectedCategory, setSelectedCategory] = useState<{
@@ -18,7 +21,7 @@ const AddCategory = () => {
     })
 
     return (
-        <div className="w-full px-3 text-white">
+        <div className="w-full px-3">
             <div className="py-4 md:py-6 lg:py-8 md:px-[5vw] xl:px-[11vw] flex flex-col gap-4">
                 <div className='flex flex-col gap-3'>
                     <h2 className='text-xl font-semibold'>Add New Category</h2>
@@ -29,7 +32,7 @@ const AddCategory = () => {
                     </div>
                 </div>
 
-                <div className='border border-white/5 bg-[#1C1917] px-5 py-10 mt-2 rounded-xl flex flex-col gap-10 md:gap-3'>
+                <div className={`border px-5 py-10 mt-2 rounded-xl flex flex-col gap-10 md:gap-3 ${isLight ? "bg-white border-black/10 shadow-md text-black" : "border-white/5 bg-[#1C1917] text-white"}`}>
                     <div className='md:flex md:flex-row md:justify-between md:gap-7 '>
 
                         <div className='w-full'>
@@ -39,7 +42,7 @@ const AddCategory = () => {
                             <p className='text-gray-400 text-sm'>Select Super Category</p>
 
 
-                            <div className=' mb-6 relative border border-white/30 py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start cursor-pointer select-none bg-[#0C0A09]' onClick={() => setIsOpen(prev => !prev)} >
+                            <div className={`mb-6 relative border py-3 px-3 rounded-md mt-2 gap-2 text-sm flex items-center justify-between md:justify-start cursor-pointer select-none ${isLight ? "border-black/30 bg-white" : "border-white/30 bg-[#0C0A09]"}`} onClick={() => setIsOpen(prev => !prev)} >
                                 {selectedCategory.icon}
                                 <p>{selectedCategory.text}</p>
                                 <MdOutlineKeyboardArrowDown
@@ -50,7 +53,7 @@ const AddCategory = () => {
 
 
                                 <div
-                                    className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col border-white/10 bg-[#12100E] z-50 shadow-xl
+                                    className={`absolute left-0 right-0 top-full mt-2 mx-auto border rounded-md w-full py-4 px-6 flex flex-col z-50 shadow-xl transition-all duration-300 ease-in-out origin-top ${isLight ? "border-black/10 bg-white" : "border-white/10 bg-[#12100E]"}
               transition-all duration-300 ease-in-out origin-top
               ${isOpen
                                             ? 'opacity-100 scale-100 pointer-events-auto translate-y-0'
@@ -97,7 +100,7 @@ const AddCategory = () => {
 
                         <div className='w-full'>
                             <p className='text-gray-400 text-sm'>Category Name</p>
-                            <input type="text" placeholder='Enter category name' className='py-3 outline-none px-3 rounded-md mt-2 text-sm border border-white/10 bg-[#0C0A09] w-full' />
+                            <input type="text" placeholder='Enter category name' className={`py-3 outline-none px-3 rounded-md mt-2 text-sm border w-full ${isLight ? "border-black/10 bg-white" : "border-white/10 bg-[#0C0A09]"}`} />
                         </div>
 
                     </div>
@@ -108,27 +111,27 @@ const AddCategory = () => {
                     <div className='flex flex-col gap-2'>
                         <p className=''>Add Sub Category (Optional)</p>
                         <div className='flex justify-between items-center md:gap-3'>
-                            <input type="text" placeholder='Sub Category Name' className='md:flex-1 py-1.5 md:py-3 px-3 outline-none rounded-md mt-2 text-sm border border-white/10 bg-[#0C0A09] w-[82%]' />
+                            <input type="text" placeholder='Sub Category Name' className={`md:flex-1 py-1.5 md:py-3 px-3 outline-none rounded-md mt-2 text-sm border w-[82%] ${isLight ? "border-black/10 bg-white" : "border-white/10 bg-[#0C0A09]"}`} />
                             <button className='bg-green-500 py-2 px-3.5 rounded-md text-black cursor-pointer'>Add</button>
                         </div>
                     </div>
 
 
-                    <div className='border border-white/10 text-gray-400 py-5 md:py-10 px-4 md:px-6 rounded-md flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4 bg-[#1C1917]'>
+                    <div className={`border text-gray-400 py-5 md:py-10 px-4 md:px-6 rounded-md flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4 ${isLight ? "border-black/10 bg-white shadow-sm" : "border-white/10 bg-[#1C1917]"}`}>
 
                         <div className='w-full md:w-[45%] flex flex-col justify-center'>
-                            <h2 className='text-lg font-semibold text-white leading-tight'>
+                            <h2 className={`text-lg font-semibold leading-tight ${isLight ? "text-black" : "text-white"}`}>
                                 Manufacturing and Processings <br className='block md:hidden' /> Category
                             </h2>
                             <div className='flex items-center gap-3 mt-4'>
                                 <button
-                                    className={`bg-black border border-white/20 py-2 px-4 text-sm transition-all duration-300 ease-in-out rounded-md cursor-pointer ${isActive === "murti" ? "bg-green-500 text-black border-transparent font-medium" : "hover:border-white/40"}`}
+                                    className={`border py-2 px-4 text-sm transition-all duration-300 ease-in-out rounded-md cursor-pointer ${isLight ? "bg-white border-black/20" : "bg-black border-white/20"} ${isActive === "murti" ? "bg-green-500 text-black border-transparent font-medium" : "hover:border-white/40"}`}
                                     onClick={() => setIsActive("murti")}
                                 >
                                     Murti
                                 </button>
                                 <button
-                                    className={`bg-black border border-white/20 py-2 px-4 text-sm rounded-md transition-all duration-300 ease-in-out cursor-pointer ${isActive === "satu" ? "bg-green-500 text-black border-transparent font-medium" : "hover:border-white/40"}`}
+                                    className={`border py-2 px-4 text-sm rounded-md transition-all duration-300 ease-in-out cursor-pointer ${isLight ? "bg-white border-black/20" : "bg-black border-white/20"} ${isActive === "satu" ? "bg-green-500 text-black border-transparent font-medium" : "hover:border-white/40"}`}
                                     onClick={() => setIsActive("satu")}
                                 >
                                     Satu

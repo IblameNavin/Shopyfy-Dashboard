@@ -2,11 +2,14 @@
 import { useState, useEffect } from 'react'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { getOrders } from "@/app/lib/services/orderService"
+import { useTheme } from '../context/ThemeContext'
 
 const PieChartCompo = () => {
   const [metrics, setMetrics] = useState({ totalOrders: 0, totalRevenue: 0, avgValue: 0 })
   const [mounted, setMounted] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+
+  const { theme } = useTheme()
 
   useEffect(() => {
     setMounted(true);
@@ -58,11 +61,13 @@ const PieChartCompo = () => {
 
   const COLORS = ['#22C55E', '#A855F7', '#3B82F6'];
 
+  
+
   return (
-    <div className='w-full h-full bg-[#1C1917] p-6 border border-white/10 rounded-md grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
+    <div className={`w-full h-full p-6 border rounded-md grid grid-cols-1 md:grid-cols-2 gap-6 items-center ${theme === "light" ? "bg-white border-black/10 shadow-md" : "bg-[#1C1917] border-white/10"}`}>
       
       <div className='flex flex-col w-full h-full justify-between'>
-        <h3 className="text-white font-semibold text-xl mb-2">Sales Split</h3>
+        <h3 className={` font-semibold text-xl mb-2 ${theme === "light" ? "text-black" : "text-white"}`}>Sales Split</h3>
         
         <div className='w-full h-64 relative'>
           <ResponsiveContainer width="100%" height="100%">
@@ -102,22 +107,22 @@ const PieChartCompo = () => {
       </div>
 
       <div className='flex flex-col gap-4 border-t border-white/5 md:border-t-0 pt-4 md:pt-0 h-full justify-center text-white'>
-        <h4 className='text-sm font-semibold tracking-wider text-gray-500 uppercase'>Summary</h4>
+        <h4 className={`text-sm font-semibold tracking-wider uppercase ${theme === "light" ? "text-black" : ""}`}>Summary</h4>
         
         <div className='space-y-3'>
           <div className='flex items-center gap-3'>
             <span className='h-3 w-3 rounded bg-blue-500 shrink-0' />
-            <p className='text-gray-400 text-sm'>Total Orders: <span className='font-semibold text-white ml-1'>{metrics.totalOrders}</span></p>
+            <p className={`text-sm ${theme === "light" ? "text-black" : "text-gray-400"}`}>Total Orders: <span className={`font-semibold  ml-1 ${theme === "light" ? "text-black" : "text-white"}`}>{metrics.totalOrders}</span></p>
           </div>
           
           <div className='flex items-center gap-3'>
             <span className='h-3 w-3 rounded bg-green-500 shrink-0' />
-            <p className='text-gray-400 text-sm'>Total Revenue: <span className='font-semibold text-white ml-1'>Rs. {metrics.totalRevenue.toLocaleString('en-US')}</span></p>
+            <p className={`text-sm ${theme === "light" ? "text-black" : "text-gray-400"}`}>Total Revenue: <span className={`font-semibold ml-1 ${theme === "light" ? "text-black" : "text-white"}`}>Rs. {metrics.totalRevenue.toLocaleString('en-US')}</span></p>
           </div>
           
           <div className='flex items-center gap-3'>
             <span className='h-3 w-3 rounded bg-purple-500 shrink-0' />
-            <p className='text-gray-400 text-sm'>Avg. Value: <span className='font-semibold text-white ml-1'>Rs. {metrics.avgValue.toLocaleString('en-US', { maximumFractionDigits: 2 })}</span></p>
+            <p className={`text-sm ${theme === "light" ? "text-black" : "text-gray-400"}`}>Avg. Value: <span className={`font-semibold ml-1 ${theme === "light" ? "text-black" : "text-white"}`}>Rs. {metrics.avgValue.toLocaleString('en-US', { maximumFractionDigits: 2 })}</span></p>
           </div>
         </div>
       </div>

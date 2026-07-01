@@ -1,25 +1,30 @@
+"use client"
 import Image from 'next/image'
 import React from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { IoMdAdd } from 'react-icons/io'
 import Img from "@/public/returnPagePic.webp"
+import { useTheme } from '@/app/context/ThemeContext'
 
 const ReturnPolicy = () => {
+    const { theme } = useTheme()
+    const isActive = theme === "light"
+
     return (
-        <div className="w-full px-3 text-white min-h-screen flex flex-col">
+        <div className="w-full px-3 min-h-screen flex flex-col">
             <div className="py-4 md:py-6 lg:py-8 md:px-[5vw] xl:px-[11vw] flex flex-col gap-4">
                 <div className='flex flex-col gap-4'>
                     <h2 className='text-xl font-semibold'>Return Policies</h2>
                     <div className='md:flex md:flex-row items-center md:justify-center md:gap-3'>
 
-                    <div className='flex items-center gap-2 text-sm border border-white/12 rounded-full px-4 md:w-full'>
+                    <div className={`flex items-center gap-2 text-sm border rounded-full px-4 md:w-full ${isActive ? "border-black/12 bg-white" : "border-white/12"}`}>
                         <CiSearch size={18} className='text-gray-400' />
-                        <input type="text" placeholder='Search...' className='py-2 rounded' />
+                        <input type="text" placeholder='Search...' className='py-2 rounded bg-transparent outline-none w-full' />
                     </div>
 
 
                     <div className='flex items-center justify-center mt-3 md:mt-0'>
-                        <button className='flex items-center justify-center gap-1 bg-orange-500 w-fit py-2 px-4 rounded-full'><IoMdAdd size={18} />Add</button>
+                        <button className={`flex items-center justify-center gap-1 bg-orange-500 w-fit py-2 px-4 rounded-full ${isActive ? "text-white" : "text-black"}`}><IoMdAdd size={18} />Add</button>
                     </div>
                     </div>
                 </div>
@@ -31,7 +36,7 @@ const ReturnPolicy = () => {
                 <h3 className='text-center text-lg'>No Return Policy Added</h3>
                 <p className='text-gray-400 text-sm'>Please add your product return policy</p>
                 </div>
-                <button className='flex items-center justify-center gap-1 bg-orange-500 w-fit py-2 px-4 rounded-md'><IoMdAdd size={18} />Add Policy</button>
+                <button className={`flex items-center justify-center gap-1 bg-orange-500 w-fit py-2 px-4 rounded-md text-black ${isActive ? "text-white" : "text-black"}`}><IoMdAdd size={18} />Add Policy</button>
             </div>
         </div>
     )

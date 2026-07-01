@@ -16,11 +16,13 @@ import { MdOutlinePayment, MdOutlineSettings } from "react-icons/md"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { usePathname } from "next/navigation";
+import { useTheme } from "../context/ThemeContext"
 
 type Props = {
   isSidebarOpen: boolean,
-  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>,
 }
+
 
 
 
@@ -33,6 +35,9 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
   const isPaymentOpen = openMenu === "payment"
   const isSettingOpen = openMenu === "setting"
   const isHelpOpen = openMenu === "help"
+
+  const { theme } = useTheme()
+
   
   const HandleCloseSidebarForNestedLinks = (e:React.MouseEvent<HTMLAnchorElement>) => {
     e.stopPropagation()
@@ -63,7 +68,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
   }
 
   return (
-    <div className={`fixed transition-all duration-300 ease-in-out h-screen bg-black text-white px-4 py-6 w-80 top-0 left-0 z-[999] border-r border-white/10 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+    <div className={`fixed transition-all duration-300 ease-in-out h-screen px-4 py-6 w-80 top-0 left-0 z-[999] border-r overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${theme === "light" ? "bg-white text-black border-black/10" : " bg-black text-white border-white/10"}`}>
 
       {/* Top Logo */}
       <div className="flex flex-col gap-6">
@@ -123,8 +128,8 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
                 </div>
               </div>
 
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out bg-black ${isCategoryOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
-                <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out bg-black ${isCategoryOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"} ${theme === "light" ? "bg-white text-black" : " bg-black text-white"}`}>
+                <div className={`pl-10 pb-3 flex flex-col gap-2 text-sm  ${theme === "light" ? "bg-white text-gray-500" : " bg-black text-gray-300"}`}>
                   <Link href="/category"  onClick={() => setIsSidebarOpen(false)} className="hover:text-white cursor-pointer">Category List</Link>
                   <Link href="/addcategory" onClick={HandleCloseSidebarForNestedLinks} className={`hover:text-white cursor-pointer`}>Add Category</Link>
                 </div>
@@ -152,8 +157,8 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
                 </div>
               </div>
 
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isProductOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
-                <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isProductOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"} ${theme === "light" ? "bg-white text-black" : " bg-black text-white"}`}>
+                <div className={`pl-10 pb-3 flex flex-col gap-2 text-sm ${theme === "light" ? "bg-white text-gray-500" : " bg-black text-gray-300"}`}>
                   <Link href="/productlist" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Product List</Link>
                   <Link href="/addproduct" onClick={HandleCloseSidebarForNestedLinks} className="hover:text-white cursor-pointer"  >Add Product</Link>
                 </div>
@@ -207,8 +212,8 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
                 </div>
               </div>
 
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isCustomerOpen ? "max-h-40 mt-2 opacity-100" : "max-h-0 opacity-0"}`}>
-                <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isCustomerOpen ? "max-h-40 mt-2 opacity-100" : "max-h-0 opacity-0"} ${theme === "light" ? "bg-white text-black" : " bg-black text-white"}`}>
+                <div className={`pl-10 pb-3 flex flex-col gap-2 text-sm ${theme === "light" ? "bg-white text-gray-500" : " bg-black text-gray-300"}`}>
                   <Link href="/customer" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Customer List</Link>
                 </div>
               </div>
@@ -240,8 +245,8 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
                 </div>
               </div>
 
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isPaymentOpen ? "max-h-40 mt-2 opacity-100" : "max-h-0 opacity-0"}`}>
-                <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isPaymentOpen ? "max-h-40 mt-2 opacity-100" : "max-h-0 opacity-0"} ${theme === "light" ? "bg-white text-black" : " bg-black text-white"}`}>
+                <div className={`pl-10 pb-3 flex flex-col gap-2 text-sm ${theme === "light" ? "bg-white text-gray-500" : " bg-black text-gray-300"}`}>
                   <Link href="/payment" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Upload QR</Link>
                   <Link href="/paymentmethods" onClick={HandleCloseSidebarForNestedLinks} className="hover:text-white cursor-pointer">Link Payment Accounts</Link>
                 </div>
@@ -274,8 +279,8 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
                 </div>
               </div>
 
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isSettingOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
-                <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isSettingOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"} ${theme === "light" ? "bg-white text-black" : " bg-black text-white"}`}>
+                <div className={`pl-10 pb-3 flex flex-col gap-2 text-sm ${theme === "light" ? "bg-white text-gray-500" : " bg-black text-gray-300"}`}>
                   <Link href="/settings" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Profile</Link>
                   <Link href="/security" onClick={HandleCloseSidebarForNestedLinks} className="hover:text-white cursor-pointer">Security</Link>
                 </div>
@@ -304,7 +309,7 @@ const SideBar = ({isSidebarOpen, setIsSidebarOpen}: Props) => {
               </div>
 
               <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isHelpOpen ? "max-h-40 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
-                <div className="pl-10 pb-3 flex flex-col gap-2 text-sm text-gray-300">
+                <div className={`pl-10 pb-3 flex flex-col gap-2 text-sm ${theme === "light" ? "bg-white text-gray-500" : " bg-black text-gray-300"}`}>
                   <Link href="/help" onClick={(e) => e.stopPropagation()} className="hover:text-white cursor-pointer">Chat</Link>
                 </div>
               </div>

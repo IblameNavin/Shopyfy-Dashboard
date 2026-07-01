@@ -5,12 +5,14 @@ import { GiPlagueDoctorProfile } from 'react-icons/gi'
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import { IoMoonOutline } from 'react-icons/io5'
 import { MdOutlineMenuOpen } from 'react-icons/md'
+import { useTheme } from '../context/ThemeContext'
 
 type Props = {
-    setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 const Navbar = ({setIsSidebarOpen}:Props) => {
+  const { setTheme } = useTheme()
   return (
     <>
     <div className='w-full bg-[#22C55E] px-4 py-3 lg:px-40 text-white shadow-sm lg:h-18 '>
@@ -31,7 +33,7 @@ const Navbar = ({setIsSidebarOpen}:Props) => {
 
         {/* 3. Right Side: Actions/Icons */}
         <div className='flex items-center gap-5 ml-auto md:ml-0 md:gap-6 shrink-0 '>
-          <button className='cursor-pointer hover:opacity-80 transition-opacity'>
+          <button className='cursor-pointer hover:opacity-80 transition-opacity' onClick={() => setTheme(prev => (prev === "dark" ? "light" : "dark"))}>
             <IoMoonOutline className='text-lg md:text-2xl' />
           </button>
           

@@ -12,6 +12,7 @@ import { MdNavigateNext, MdOutlineComputer, MdOutlineMedicalServices } from "rea
 import { getUsers } from "../../lib/services/userService"
 import { getOrders } from "../../lib/services/orderService"
 import { getProducts } from "../../lib/services/productService"
+import { useTheme } from '@/app/context/ThemeContext'
 
 interface ClientRecord {
   id: number
@@ -22,8 +23,11 @@ interface ClientRecord {
 }
 
 const Category = () => {
+  const { theme } = useTheme()
+  const isActive = theme === "light"
   const [activeGreen, setActiveGreen] = useState<"all" | "your">("all")
   const [clientData, setClientData] = useState<ClientRecord[]>([])
+
 
   const tableGridClass =
     "grid grid-cols-[60px_1.5fr_2fr_130px_2.5fr_100px] items-center gap-4 text-[0.92rem]"
@@ -72,21 +76,21 @@ const Category = () => {
       <div className="py-4 md:py-6 lg:py-8 md:px-[5vw] xl:px-[11vw] flex flex-col gap-4">
 
         <div className="flex items-center justify-between">
-          <h2 className="text-xl text-white">Category List</h2>
-          <button className="flex items-center justify-center gap-1.5 bg-green-500 py-2 px-4 text-black font-medium rounded-md">
+          <h2 className="text-xl font-semibold">Category List</h2>
+          <button className={`flex items-center justify-center gap-1.5 bg-green-500 py-2 px-4 font-medium rounded-md ${isActive ? "text-white" : "text-black"}`}>
             <IoAddCircleOutline size={22} /> Add Category
           </button>
         </div>
 
-        <div className="flex-1 flex flex-col border rounded-md border-white/5 w-full min-h-160 py-4 bg-[#1C1917]">
+        <div className={`flex-1 flex flex-col border rounded-md w-full min-h-160 py-4 ${isActive ? "bg-white border-black/10 shadow-md text-black" : "bg-[#1C1917] border-white/5 text-white"}`}>
 
           {/* Search */}
-          <div className="px-4 flex flex-col gap-4 mb-8 text-white">
-            <div className="flex w-90 items-center gap-4 border border-white/20 px-2 rounded-md">
+          <div className="px-4 flex flex-col gap-4 mb-8">
+            <div className={`flex w-90 items-center gap-4 border px-2 rounded-md ${isActive ? "border-black/20" : "border-white/20"}`}>
               <input
                 type="text"
                 placeholder="Search Name"
-                className="text-sm px-1.5 py-2 bg-black text-white rounded-md w-80 outline-none"
+                className={`text-sm px-1.5 py-2 rounded-md w-80 outline-none ${isActive ? "bg-white text-black" : "bg-black text-white"}`}
               />
               <CiSearch size={22} className="text-gray-400" />
             </div>
@@ -96,8 +100,8 @@ const Category = () => {
                 className={`py-2 px-4 rounded-md ${
                   activeGreen === "all"
                     ? "bg-green-500 text-black"
-                    : "bg-black text-gray-400 border border-white/10"
-                }`}
+                    : isActive ? "bg-white text-gray-400 border border-black/10" : "bg-black text-gray-400 border border-white/10"
+                } ${isActive ? "text-white" : "text-black"}`}
                 onClick={() => setActiveGreen("all")}
               >
                 All Categories
@@ -108,8 +112,8 @@ const Category = () => {
                 className={`py-2 px-4 rounded-md ${
                   activeGreen === "your"
                     ? "bg-green-500 text-black"
-                    : "bg-black text-gray-400 border border-white/10"
-                }`}
+                    : isActive ? "bg-white text-gray-400 border border-black/10" : "bg-black text-gray-400 border border-white/10"
+                } ${isActive ? "text-black" : "text-white"}`}
                 onClick={() => setActiveGreen("your")}
               >
                 Your Categories
@@ -119,10 +123,10 @@ const Category = () => {
 
           {/* TABLE */}
           <div className="w-full overflow-x-auto custom-scrollbar">
-            <div className="min-w-[1100px] flex flex-col text-white px-4">
+            <div className="min-w-[1100px] flex flex-col px-4">
 
               {/* HEADER */}
-              <div className={`${tableGridClass} bg-white/5 py-3 px-4 text-gray-400 text-xs uppercase`}>
+              <div className={`${tableGridClass} bg-white/5 py-3 px-4 text-xs uppercase border-b border-white/10 ${isActive ? "text-black" : "text-gray-400"}`}>
                 <div>SN</div>
                 <div>Category</div>
                 <div>Super Category</div>
@@ -135,21 +139,21 @@ const Category = () => {
               {clientData.map((item, index) => (
                 <div
                   key={item.category}
-                  className={`${tableGridClass} py-5 px-4 border-b border-white/5 text-gray-300`}
+                  className={`${tableGridClass} py-5 px-4 border-b hover:bg-white/3 transition-colors ${isActive ? "border-black/10 text-black" : "bg-[#1C1917] border-white/5 text-gray-300"}`}
                 >
-                  <div>{index + 1}</div>
+                  <div className={isActive ? "text-black" : "text-gray-500"}>{index + 1}</div>
 
-                  <div className="text-white font-medium">
+                  <div className={`font-medium ${isActive ? "text-black" : "text-white"}`}>
                     {item.category}
                   </div>
 
-                  <div>{item.superCategory}</div>
+                  <div className={isActive ? "text-black" : "text-gray-300"}>{item.superCategory}</div>
 
-                  <div className="font-semibold">
+                  <div className={`font-semibold ${isActive ? "text-black" : "text-white"}`}>
                     {item.totalProducts}
                   </div>
 
-                  <div className="text-xs text-gray-400">
+                  <div className={`text-xs ${isActive ? "text-black" : "text-gray-400"}`}>
                     {item.subCategories.length > 0
                       ? item.subCategories.join(", ")
                       : "-"}
